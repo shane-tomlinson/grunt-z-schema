@@ -1,0 +1,46 @@
+{
+  "name": "grunt-z-schema",
+  "version": "0.0.1",
+  "description": "Grunt plugin for z-schema, a JSON Schema validator.",
+  "homepage": "https://github.com/petrbela/grunt-z-schema",
+  "repository": "git://github.com/petrbela/grunt-z-schema.git",
+  "bugs": "https://github.com/petrbela/grunt-z-schema/issues",
+  "author": {
+    "name": "Petr Bela",
+    "email": "github@petrbela.com",
+    "url": "http://petrbela.com"
+  },
+  "keywords": [
+    "gruntplugin",
+    "z-schema",
+    "json",
+    "schema"
+  ],
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "dependencies": {
+    "z-schema": "~2.4.3",
+    "async": "~0.2.10"
+  },
+  "devDependencies": {
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-jshint": "~0.2.0",
+    "grunt-contrib-nodeunit": "~0.1.2",
+    "grunt": "~0.4.0",
+    "jshint-stylish": "~0.1.3",
+    "load-grunt-tasks": "~0.2.0",
+    "grunt-continue": "0.0.1",
+    "grunt-bump": "0.0.13",
+    "grunt-conventional-changelog": "~1.0.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  }
+}
