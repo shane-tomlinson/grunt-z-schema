@@ -1,6 +1,6 @@
 {
   "name": "grunt-z-schema",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Grunt plugin for z-schema, a JSON Schema validator.",
   "homepage": "https://github.com/petrbela/grunt-z-schema",
   "repository": "git://github.com/petrbela/grunt-z-schema.git",
