@@ -29,7 +29,13 @@ grunt.initConfig({
       // Task-specific options go here.
     },
     your_target: {
-      // Target-specific file lists and/or options go here.
+      options: {
+        // Target-specific file options go here.
+      },
+      files: {
+        // Target-specific file lists go here.
+        'schema.json': ['file1.json', 'file2.json']  // the schema will validate file1 and file2
+      }
     },
   },
 })
@@ -37,48 +43,52 @@ grunt.initConfig({
 
 ### Options
 
-#### options.schema
-Type: `String`
-
-Path to schema file.
-
-#### options.validation
-Type: `Object`
-Default value: `{}`
-
-Specify options for [strict validation](https://github.com/zaggino/z-schema#strict-validation). Any option defined here will be passed over to ZSchema instance.
+Options for [strict validation](https://github.com/zaggino/z-schema#strict-validation). Any option defined here will be passed over to ZSchema instance.
 
 Example:
 
 ```js
 zschema: {
   options: {
-    validation: {
-      noTypeless: true
-    }
+    noTypeless: true
   }
 }
 ```
 
 ### Usage Examples
 
+In this example, `post1.json` and `post2.json` are two JSON files that will be validated against the `post-schema.json` schema. All JSON files in the `comments` will be validated against the comment schema. All validations will also report unknown keywords.
+
 ```js
 grunt.initConfig({
   zschema: {
     options: {
-      schema: 'schema.json',
-      validation: {
-        noExtraKeywords: true
-      }
+      noExtraKeywords: true
     },
     build: {
       files: {
-        src: ['src/config.json']
+        'post-schema.json': ['posts/post1.json', 'posts/post2.json'],
+        'comment-schema.json': ['comments/*.json']
       }
     }
-  },
+  }
 })
 ```
+
+If you don't have any actual JSON files but still need to validate the schema itself for syntactic and other errors:
+
+```js
+grunt.initConfig({
+  zschema: {
+    build: {
+      files: {
+        'schema.json': []
+      }
+    }
+  }
+})
+```
+
 
 ## Contributing
 

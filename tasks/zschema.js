@@ -8,23 +8,22 @@
 
 'use strict';
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
 
   var ZSchema = require('z-schema'),
       async = require('async'),
-      _ = grunt.util._;
+      _ = require('lodash');
 
-  grunt.registerMultiTask('zschema', 'Grunt plugin for z-schema, a JSON Schema validator.', function() {
+  grunt.registerMultiTask('zschema', 'Validate JSON/schema files with z-schema.', function() {
     var complete = this.async();
 
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({});
 
-    var validator = new ZSchema(options.validation);
-    var schema = grunt.file.readJSON(options.schema);
+    var validator = new ZSchema(options);
 
     var handleResults = function(file, cb, report) {
       report.errors.forEach(function(error) {
@@ -36,16 +35,14 @@ module.exports = function (grunt) {
       cb(report.valid ? null : report);
     }
 
-    var validateSchema = function(done) {
-      var handler = _.bind(handleResults, this, options.schema, done);
+    var validateSchema = function(schema, done) {
+      var handler = _.bind(handleResults, this, schema, done);
 
       validator.validateSchema(schema).then(handler).catch(handler);
     };
 
-    var validateFiles = function(done) {
-      // Iterate over all specified file groups.
-      // console.log(this)
-      async.mapSeries(this.filesSrc, function(filepath, cb) {
+    var validateFiles = function(schema, files, done) {
+      async.mapSeries(files, function(filepath, cb) {
         if (!grunt.file.exists(filepath)) {
           // Warn and skip invalid source files.
           grunt.log.warn('Source file "' + filepath + '" not found.');
@@ -53,15 +50,22 @@ module.exports = function (grunt) {
         } else {
           var file = grunt.file.readJSON(filepath),
               handler = _.bind(handleResults, this, filepath, cb);
+
           validator.validate(file, schema).then(handler).catch(handler);
         }
       }, done);
     };
 
-    async.series([
-      _.bind(validateSchema, this),
-      _.bind(validateFiles, this)
-    ], function(err) {
+    async.mapSeries(this.files, function(filegroup, cb) {
+      // each filegroup is an object with dest (string) and src (array)
+      var schema = grunt.file.readJSON(filegroup.dest);
+      async.series([
+        _.bind(validateSchema, this, schema),
+        _.bind(validateFiles, this, schema, filegroup.src)
+      ], function(err) {
+        cb(err);
+      });
+    }, function(err) {
       // false in grunt means the task failed
       complete(err ? false : undefined);
     });

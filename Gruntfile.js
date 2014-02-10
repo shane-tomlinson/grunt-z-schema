@@ -45,23 +45,23 @@ module.exports = function (grunt) {
 
     // Configuration to be tested.
     zschema: {
-      options: {
-        schema: 'test/fixtures/schema.json'
-      },
       pass: {
-        src: ['test/fixtures/pass.json']
+        files: {
+          'test/fixtures/schema.json': ['test/fixtures/pass.json']
+        }
       },
       fail_file: {
-        src: ['test/fixtures/fail.json']
+        files: {
+          'test/fixtures/schema.json': ['test/fixtures/fail.json']
+        }
       },
       fail_schema: {
         options: {
-          schema: 'test/fixtures/schema-invalid.json',
-          validation: {
-            noExtraKeywords: true
-          }
+          noExtraKeywords: true
         },
-        src: ['test/fixtures/pass.json']
+        files: {
+          'test/fixtures/schema-invalid.json': []
+        }
       }
     }
   });

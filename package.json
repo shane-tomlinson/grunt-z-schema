@@ -27,7 +27,8 @@
   ],
   "dependencies": {
     "z-schema": "~2.4.3",
-    "async": "~0.2.10"
+    "async": "~0.2.10",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
     "grunt-contrib-clean": "~0.4.0",
