@@ -33,7 +33,7 @@ module.exports = function(grunt) {
         grunt.log.warn(file + " Warning: " + warning.message + " at " + warning.path);
       });
       cb(report.valid ? null : report);
-    }
+    };
 
     var validateSchema = function(schema, done) {
       var handler = _.bind(handleResults, this, schema, done);
