@@ -41,6 +41,40 @@ grunt.initConfig({
 })
 ```
 
+### Advanced usage
+
+You can also configure **Custom Format Validators** or **Remote references caching** as follows :
+
+```js
+var validators = require('./lib/validators');
+var schemas = require('./lib/schemas');
+
+module.exports = function (grunt) {
+  grunt.initConfig({
+    zschema: {
+      validateSchemas: {
+        validators: {
+          'xstring': validators.xstringValidator
+        },
+        remoteRefs: {
+          'http://apis.lemonde.fr/myschema.json': schemas.myschema,
+        },
+        files: {
+          'schemas/main.json': 'fixtures/**/*.json'
+        }
+      }
+    }
+  });
+
+  require('load-grunt-tasks')(grunt);
+  grunt.loadNpmTasks('grunt-z-schema');
+
+  grunt.registerTask('default', 'zschema');
+}
+```
+
+See the [Z-Schema documentation](https://github.com/zaggino/z-schema).
+
 ### Options
 
 Options for [strict validation](https://github.com/zaggino/z-schema#strict-validation). Any option defined here will be passed over to ZSchema instance.
