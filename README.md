@@ -57,7 +57,7 @@ module.exports = function (grunt) {
           'xstring': validators.xstringValidator
         },
         remoteRefs: {
-          'http://apis.lemonde.fr/myschema.json': schemas.myschema,
+          'http://apis.mysite.com/myschema.json': schemas.myschema,
         },
         files: {
           'schemas/main.json': 'fixtures/**/*.json'
