@@ -24,7 +24,7 @@ module.exports = function(grunt) {
     var options = this.options({});
 
     var data = this.data;
-    data.formatValidators = data.validators || {};
+    data.validators = data.validators || {};
     data.remoteRefs = data.remoteRefs || {};
 
     // Register remote references
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
     });
 
     // Register custom format validators
-    _.forOwn(data.formatValidators, function(callback, format) {
+    _.forOwn(data.validators, function(callback, format) {
       ZSchema.registerFormat(format, callback);
     });
 
