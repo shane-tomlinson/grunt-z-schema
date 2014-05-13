@@ -55,6 +55,16 @@ module.exports = function (grunt) {
           'test/fixtures/schema.json': ['test/fixtures/fail.json']
         }
       },
+      custom_validator: {
+        'validators': {
+          'xstring': function (str) {
+            return str === 'xxx';
+          }
+        },
+        'files': {
+          'test/fixtures/schema-custom-formater.json': ['test/fixtures/custom-formater.json']
+        }
+      },
       fail_schema: {
         options: {
           noExtraKeywords: true
