@@ -23,6 +23,20 @@ module.exports = function(grunt) {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({});
 
+    var data = this.data;
+    data.validators = data.validators || {};
+    data.remoteRefs = data.remoteRefs || {};
+
+    // Register remote references
+    _.forOwn(data.remoteRefs, function(schema, uri) {
+      ZSchema.setRemoteReference(uri, schema);
+    });
+
+    // Register custom format validators
+    _.forOwn(data.validators, function(callback, format) {
+      ZSchema.registerFormat(format, callback);
+    });
+
     var validator = new ZSchema(options);
 
     var handleResults = function(file, cb, report) {

@@ -55,6 +55,24 @@ module.exports = function (grunt) {
           'test/fixtures/schema.json': ['test/fixtures/fail.json']
         }
       },
+      custom_validator: {
+        'validators': {
+          'xstring': function (str) {
+            return str === 'xxx';
+          }
+        },
+        'files': {
+          'test/fixtures/schema-custom-formater.json': ['test/fixtures/custom-formater.json']
+        }
+      },
+      'remote_reference': {
+        'remoteRefs': {
+          'http://api.myserver.com/myschema.json': '{"type": "string", "format": "email"}'
+        },
+        'files': {
+          'test/fixtures/schema-remote-reference.json': ['test/fixtures/remote-reference.json']
+        }
+      },
       fail_schema: {
         options: {
           noExtraKeywords: true
