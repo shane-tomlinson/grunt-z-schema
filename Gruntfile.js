@@ -108,7 +108,7 @@ module.exports = function (grunt) {
   grunt.registerTask('pass', passNames);
   grunt.registerTask('fail', failNames);
 
-  grunt.registerTask('test', ['pass', 'continueOn', 'fail', 'continueOff']);
+  grunt.registerTask('test', ['pass', 'continue:on', 'fail', 'continue:off']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);

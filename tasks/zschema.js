@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 
   var ZSchema = require('z-schema'),
       async = require('async'),
-      _ = require('lodash');
+      forOwn = require('lodash.forown');
 
   grunt.registerMultiTask('zschema', 'Validate JSON/schema files with z-schema.', function() {
     var complete = this.async();
@@ -27,32 +27,36 @@ module.exports = function(grunt) {
     data.validators = data.validators || {};
     data.remoteRefs = data.remoteRefs || {};
 
+    var validator = new ZSchema(options);
+
     // Register remote references
-    _.forOwn(data.remoteRefs, function(schema, uri) {
-      ZSchema.setRemoteReference(uri, schema);
+    forOwn(data.remoteRefs, function(schema, uri) {
+      validator.setRemoteReference(uri, schema);
     });
 
     // Register custom format validators
-    _.forOwn(data.validators, function(callback, format) {
+    forOwn(data.validators, function(callback, format) {
       ZSchema.registerFormat(format, callback);
     });
 
-    var validator = new ZSchema(options);
 
     var handleResults = function(file, cb, report) {
-      report.errors.forEach(function(error) {
+      if (report === true) {
+        cb(null);
+        return;
+      }
+
+      validator.getLastErrors().forEach(function(error) {
         grunt.log.error(file + " Error: " + error.message + " at " + error.path);
       });
-      report.warnings.forEach(function(warning) {
-        grunt.log.warn(file + " Warning: " + warning.message + " at " + warning.path);
-      });
-      cb(report.valid ? null : report);
+
+      cb(report);
     };
 
     var validateSchema = function(schema, done) {
-      var handler = _.bind(handleResults, this, schema, done);
+      var handler = handleResults.bind(this, schema, done);
 
-      validator.validateSchema(schema).then(handler).catch(handler);
+      Promise.resolve(validator.validateSchema(schema)).then(handler, handler);
     };
 
     var validateFiles = function(schema, files, done) {
@@ -63,9 +67,9 @@ module.exports = function(grunt) {
           cb();
         } else {
           var file = grunt.file.readJSON(filepath),
-              handler = _.bind(handleResults, this, filepath, cb);
+              handler = handleResults.bind(this, filepath, cb);
 
-          validator.validate(file, schema).then(handler).catch(handler);
+          Promise.resolve(validator.validate(file, schema)).then(handler, handler);
         }
       }, done);
     };
@@ -74,8 +78,8 @@ module.exports = function(grunt) {
       // each filegroup is an object with dest (string) and src (array)
       var schema = grunt.file.readJSON(filegroup.dest);
       async.series([
-        _.bind(validateSchema, this, schema),
-        _.bind(validateFiles, this, schema, filegroup.src)
+        validateSchema.bind(this, schema),
+        validateFiles.bind(this, schema, filegroup.src)
       ], function(err) {
         cb(err);
       });

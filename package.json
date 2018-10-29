@@ -18,7 +18,7 @@
   ],
   "main": "Gruntfile.js",
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 8.0.0"
   },
   "licenses": [
     {
@@ -26,20 +26,21 @@
     }
   ],
   "dependencies": {
-    "z-schema": "~2.4.3",
-    "async": "~0.2.10",
-    "lodash": "~2.4.1"
+    "async": "^2.6.1",
+    "lodash.forown": "^4.4.0",
+    "z-schema": "^3.24.1"
   },
   "devDependencies": {
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-jshint": "~0.8.0",
-    "grunt-contrib-nodeunit": "~0.3.0",
-    "grunt": "~0.4.2",
-    "jshint-stylish": "~0.1.5",
-    "load-grunt-tasks": "~0.3.0",
-    "grunt-continue": "0.0.1",
-    "grunt-bump": "0.0.13",
-    "grunt-conventional-changelog": "~1.0.0"
+    "grunt": "^1.0.3",
+    "grunt-bump": "^0.8.0",
+    "grunt-continue": "^0.1.0",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-jshint": "^2.0.0",
+    "grunt-contrib-nodeunit": "^2.0.0",
+    "grunt-conventional-changelog": "^6.1.0",
+    "install": "^0.12.2",
+    "jshint-stylish": "^2.2.1",
+    "load-grunt-tasks": "^4.0.0"
   },
   "scripts": {
     "test": "grunt test"
